@@ -28,7 +28,7 @@
 
 ## 2. Vì Sao Ngưỡng Chất Lượng Đặt Trên F1 Chứ Không Phải Accuracy
 
-Tập Adult chỉ có 24,8% mẫu thuộc lớp thu nhập > 50K, nên một mô hình luôn trả lời "thu nhập thấp" vẫn đạt accuracy khoảng 0,752 dù không nhận ra được ai thu nhập cao. Con số đó gây hiểu nhầm vì accuracy bị lớp đa số chi phối. F1 của lớp dương là trung bình điều hòa của precision và recall trên chính lớp thu nhập cao, nên mô hình "đoán bừa" kia có F1 bằng 0. Muốn qua ngưỡng 0.65, mô hình phải vừa bắt được người thu nhập cao vừa ít gán nhầm. Tôi gọi `f1_score(y_eval, preds)` với mặc định binary. Nếu dùng `average="weighted"` hoặc `"macro"`, điểm của lớp đa số (F1 khoảng 0.92) sẽ kéo kết quả lên cao, che mất việc lớp dương đang bị bỏ sót, và ngưỡng 0.65 sẽ mất ý nghĩa.
+Tập Adult chỉ có 24,8% mẫu thuộc lớp thu nhập > 50K, nên một mô hình luôn trả lời "thu nhập thấp" vẫn đạt accuracy khoảng 0,752 dù không nhận ra được ai thu nhập cao. Con số đó gây hiểu nhầm vì accuracy bị lớp đa số chi phối. F1 của lớp dương là trung bình điều hòa của precision và recall trên chính lớp thu nhập cao, nên mô hình "đoán bừa" kia có F1 bằng 0. Muốn qua ngưỡng 0.65, mô hình phải vừa bắt được người thu nhập cao vừa ít gán nhầm. Tôi gọi `f1_score(y_eval, preds)` với mặc định binary. Nếu dùng `average="weighted"` hoặc `"macro"`, điểm của lớp đa số (F1 khoảng 0.92) sẽ kéo kết quả lên cao, che mất việc lớp dương đang bị bỏ sót, và ngưỡng 0.65 sẽ mất ý nghĩa. Tôi đã kiểm chứng điều này ở lần chạy #3: với bộ tham số yếu (50/0.05/2), mô hình vẫn đạt accuracy 0.842 nhưng F1 chỉ 0.5907, nên Quality Gate chặn và Release bị bỏ qua (ảnh `07-quality-gate-chan.png`); model đang phục vụ trên VM vẫn giữ nguyên.
 
 ---
 
