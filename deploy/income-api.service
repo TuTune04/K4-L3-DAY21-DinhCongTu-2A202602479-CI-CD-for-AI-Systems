@@ -1,0 +1,20 @@
+# Sao chep file den /etc/systemd/system/income-api.service.
+# Thay income-lab-tutune04-486940690343 bang ten bucket artifact.
+# Xac thuc bang EC2 IAM role (hoac EnvironmentFile).
+# Cai dat: sudo systemctl daemon-reload && sudo systemctl enable --now income-api
+
+[Unit]
+Description=Income Model Inference Server
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu
+Environment="ARTIFACT_BUCKET=income-lab-tutune04-486940690343"
+Environment="AWS_DEFAULT_REGION=ap-southeast-1"
+ExecStart=/home/ubuntu/venv/bin/python /home/ubuntu/src/serve.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
